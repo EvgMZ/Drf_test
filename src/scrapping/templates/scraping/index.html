@@ -1,0 +1,18 @@
+{% extends "./base.html" %}
+{% block content %}
+{% for vac in object_list %}
+<div class ='container'>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-18">
+      <div class="feature col">
+        <div class="feature-icon bg-primary bg-gradient">
+          <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
+        </div>
+        <div class ='container'>
+        <h2>{{vac.title}}</h2>
+        </div>
+        <p>{{ vac.description }}</p>
+      </div> 
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
