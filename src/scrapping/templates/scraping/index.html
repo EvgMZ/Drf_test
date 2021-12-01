@@ -8,23 +8,35 @@
         <div class="feature-icon bg-primary bg-gradient">
           <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
         </div>
-        <div class ='container'>
+        <div class ='mx-auto'>
         <h2><a href="{{vac.url}}">{{vac.title}}</a></h2>
+        <h5>{{vac.company}}</h5>
+
         </div>
         <p>{{ vac.description }}</p>
       </div> 
     </div>
 </div>
 </div>
+  {% empty %}
+  <div class ='container'>
+    <h3 class="col-md-6 mx-auto" >Don't search for you Vacancy</h3>
+  </div>
 {% endfor %}
 {% csrf_token %}
-<form>
-  <div class ='container'>
-  <div class="form-group">
-    {{ form.as_p }}
+<div class="p-4 p-md-5 mb-4">
+<div class ='container'>
+  <div class="list-group mb-3">
+    <div class="col-md-6 mx-auto">
+      <form>
+        <div class="form-group">
+          {{ form.as_p }}
+        </div>
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </form>
+    </div>
   </div>
-  <button type="submit" class="btn btn-primary">Search</button>
 </div>
-</form>
 
 {% endblock %}
