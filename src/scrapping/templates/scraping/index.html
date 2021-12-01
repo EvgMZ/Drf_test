@@ -17,4 +17,14 @@
 </div>
 </div>
 {% endfor %}
+{% csrf_token %}
+<form>
+  <div class ='container'>
+  <div class="form-group">
+    {{ form.as_p }}
+  </div>
+  <button type="submit" class="btn btn-primary">Search</button>
+</div>
+</form>
+
 {% endblock %}
