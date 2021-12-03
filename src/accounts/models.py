@@ -1,8 +1,6 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
-from django.contrib.auth.models import (
-     AbstractBaseUser, UserManager
-)
+from django.contrib.auth.models import AbstractBaseUser
 
 
 class MyUserManager(BaseUserManager):
@@ -22,7 +20,7 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password=None):
+    def create_superuser(self, email, password=None, **extra_fields):
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
@@ -57,7 +55,7 @@ class MyUser(AbstractBaseUser):
         blank=True
     )
     send_email = models.BooleanField(default=True)
-    objects = UserManager()
+    objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -80,3 +78,7 @@ class MyUser(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+    class Meta:
+        verbose_name = 'Имя пользователя'
+        verbose_name_plural = 'Имена пользователей'
