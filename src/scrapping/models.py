@@ -3,6 +3,12 @@ from django.db import models
 from .utils import from_cyrillic_to_eng
 
 
+def defaults_url():
+    return {
+        'hh': '',
+        }
+
+
 class City(models.Model):
     name = models.CharField(
         max_length=50,
@@ -65,6 +71,24 @@ class Vacancy(models.Model):
     class Meta:
         verbose_name = 'Name Vacancy'
         verbose_name_plural = 'Names Vacancy'
+        ordering = ['-timestamp']
 
     def __str__(self) -> str:
         return self.title
+
+
+class Url(models.Model):
+    city = models.ForeignKey(
+        'City',
+        on_delete=models.CASCADE,
+        verbose_name='city'
+    )
+    Language = models.ForeignKey(
+        'Language',
+        on_delete=models.CASCADE,
+        verbose_name='language'
+    )
+    url_data = models.JSONField(default=defaults_url)
+
+    class Meta:
+        unique_together = ('city', 'Language')

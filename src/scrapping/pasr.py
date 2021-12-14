@@ -2,7 +2,9 @@ import requests
 import codecs
 from bs4 import BeautifulSoup as BS
 url = 'https://hh.ru/search/vacancy?area=1&fromSearchLine=true&text=python'
-__all__ = ('find_vac_hh')
+
+__all__ = ('find_vac_hh',)
+
 headers = {
     'User-Agent':
     'Mozilla/5.0 (Windows NT 5.1; rv:47.0) Gecko/20100101 Firefox/47.0',
@@ -12,7 +14,7 @@ headers = {
 jobs = []
 
 
-def find_vac_hh():
+def find_vac_hh(url, city=None, language=None):
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         soup = BS(response.content, 'html.parser')
@@ -55,7 +57,9 @@ def find_vac_hh():
                     'title': name_vac,
                     'url': href,
                     'description': description,
-                    'company': company_name
+                    'company': company_name,
+                    'city_id': city,
+                    'Language_id': language
                 }
             )
     h = codecs.open('work.text', 'w', 'utf-8')

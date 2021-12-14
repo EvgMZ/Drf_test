@@ -14,7 +14,7 @@ def home_page(request):
             _filter['city__slug'] = city
         if language:
             _filter['Language__slug'] = language
-    qs = Vacancy.objects.filter(**_filter)
+        qs = Vacancy.objects.filter(**_filter)
     return render(
         request,
         'scraping/index.html',
