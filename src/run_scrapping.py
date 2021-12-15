@@ -5,7 +5,7 @@ import django
 from scrapping.pasr import *
 from django.contrib.auth import get_user_model
 import logging
-
+import asyncio
 proj = os.path.dirname(os.path.abspath('manage.py'))
 sys.path.append(proj)
 os.environ['DJANGO_SETTINGS_MODULE'] = 'drf_django_scrapping.settings'
@@ -24,6 +24,13 @@ logging.basicConfig(
 pasrers = (
     (find_vac_hh, 'hh')
 )
+jobs = []
+
+
+async def main(value):
+    func, url, city, language = value
+    job = await loop.run_in_executor(None, func, url, city, language)
+    jobs.extend(job)
 
 
 def get_settings():
@@ -50,13 +57,21 @@ urls = get_urls(settings)
 #parsers = find_vac_hh(url)
 #city = City.objects.filter(slug='moskva').first()
 #language = Language.objects.filter(slug='python').first()
-jobs = []
-for data in urls:
-    for job in pasrers:
-        url = data['url_data']['hh']
-        j = find_vac_hh(url, city=data['city'], language=data['language'])
-        jobs += j
 
+loop = asyncio.get_event_loop()
+tmp_tasks = [
+    (find_vac_hh, data['url_data']['hh'], data['city'], data['language'])
+    for data in urls
+    for job in pasrers
+]
+tasks = asyncio.wait([loop.create_task(main(f))for f in tmp_tasks])
+#for data in urls:
+#    for job in pasrers:
+#        url = data['url_data']['hh']
+#        j = find_vac_hh(url, city=data['city'], language=data['language'])
+#        jobs += j
+loop.run_until_complete(tasks)
+loop.close()
 for job in jobs:
     try:
         v = Vacancy(**job)

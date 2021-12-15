@@ -5,6 +5,15 @@ from .forms import FindForm
 
 def home_page(request):
     form = FindForm()
+    return render(
+        request,
+        'scraping/index.html',
+        context={'form': form}
+    )
+
+
+def list_view(request):
+    form = FindForm()
     city = request.GET.get('city')
     language = request.GET.get('language')
     qs = []
@@ -17,6 +26,6 @@ def home_page(request):
         qs = Vacancy.objects.filter(**_filter)
     return render(
         request,
-        'scraping/index.html',
+        'scraping/list.html',
         context={'object_list': qs, 'form': form}
     )
