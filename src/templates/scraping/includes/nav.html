@@ -18,8 +18,17 @@
       </form>
 
       <div class="text-end">
-        <button type="button" class="btn btn-outline-light me-2">Login</button>
-        <button type="button" class="btn btn-warning">Sign-up</button>
+      {% if user.is_authenticated %}
+      
+      <!--<button type="button" class="btn btn-outline-light me-2" ></button> -->
+      <a href="{%url 'logout' %}" class="btn btn-outline-light me-2 ">Log out</a>
+      {% else %}
+      <a href="{%url 'login' %}" class="btn btn-outline-light me-2 ">Log in</a>
+      <!--<button type="button" class="btn btn-outline-light me-2"><a >Log in</a></button> -->
+      <a href="{%url 'register' %}" class="btn btn-outline-light me-2 ">Sign-up</a>
+      <!--<button type="button" class="btn btn-outline-light me-2">Sign-up</button>-->
+      {% endif %}
+      
       </div>
     </div>
   </div>
