@@ -19,7 +19,7 @@
 
       <div class="text-end">
       {% if user.is_authenticated %}
-      
+      <a href="{%url 'update' %}" class="btn btn-outline-light me-2 ">Settings</a>
       <!--<button type="button" class="btn btn-outline-light me-2" ></button> -->
       <a href="{%url 'logout' %}" class="btn btn-outline-light me-2 ">Log out</a>
       {% else %}
@@ -29,6 +29,31 @@
       <!--<button type="button" class="btn btn-outline-light me-2">Sign-up</button>-->
       {% endif %}
       
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    <div class="row">
+        {% if messages %}
+          {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} 
+              <div class="alert alert-warning alert-dismissible fade show col-10 mx-auto container" role="alert">
+                <div class="container mx-auto">
+                  {{message}} 
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% else %}
+            <div class="alert alert-success alert-dismissible fade show col-10 mx-auto container"  role="alert">
+              <div class="container mx-auto">
+                {{message}} 
+              </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
       </div>
     </div>
   </div>

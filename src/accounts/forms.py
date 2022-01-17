@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.hashers import check_password
+from scrapping.models import Language, City
 from django.forms import fields
 
 User = get_user_model()
@@ -20,7 +21,7 @@ class UserLoginForm(forms.Form):
         if email and password:
             qs = User.objects.filter(email=email)
             if not qs.exists():
-                raise forms.ValidationError('User is not find')
+                raise forms.ValidationError('User is not found')
             if not check_password(password, qs[0].password):
                 raise forms.ValidationError('Password wrong')
             user = authenticate(email=email, password=password)
@@ -51,3 +52,29 @@ class UserRegistraionForm(forms.ModelForm):
         if data['password'] != data['password2']:
             raise forms.ValidationError('Password not equals')
         return data['password2']
+
+
+class UserUpdateForm(forms.Form):
+    city = forms.ModelChoiceField(
+        queryset=City.objects.all(),
+        to_field_name='slug',
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label='Город'
+    )
+    language = forms.ModelChoiceField(
+        queryset=Language.objects.all(),
+        to_field_name='slug',
+        required=True,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label='Специальность'
+    )
+    send_email = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput,
+        label='Получение рассылки'
+        )
+
+    class Meta:
+        model = User
+        fields = ('city', 'language', 'send_email')
