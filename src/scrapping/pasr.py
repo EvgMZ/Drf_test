@@ -66,3 +66,4 @@ def find_vac_hh(url, city=None, language=None):
     h.write(str(jobs))
     h.close()
     return jobs
+#find_vac_hh('https://hh.ru/search/vacancy?area=1&fromSearchLine=true&text=python')
