@@ -1,1 +1,1 @@
-web: src.gunicorn drf_django_scrapping.wsgi
+web: gunicorn src.drf_django_scrapping.wsgi
